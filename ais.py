@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Ais
-# Generated: Wed Mar 15 10:01:38 2017
+# Generated: Wed Mar 15 11:07:48 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -182,7 +182,7 @@ class ais(gr.top_block, Qt.QWidget):
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
         self.blocks_multiply_const_vxx_0_0 = blocks.multiply_const_vff((radtohertz, ))
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vff((radtohertz, ))
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*1, "/home/gs-ms/AIS_RX/Raw-FirstTestPort", True)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*1, "/home/gs-ms/AIS_RX/Raw-FirstTestPort", False)
         self.blocks_complex_to_real_1 = blocks.complex_to_real(1)
         self.analog_sig_source_x_0 = analog.sig_source_c(samp_rate*2, analog.GR_COS_WAVE, 20e3, 1, 0)
 

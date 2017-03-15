@@ -7,7 +7,8 @@
 
 #include "socket_utils.h"
 
-#define NCHK_LEN 3
+#define 	NCHK_LEN 				3
+#define 	MAX_AIS_PACKET_TYPE		9
 
 typedef struct demod_state_s{
     uint8_t 	*rbuffer;
