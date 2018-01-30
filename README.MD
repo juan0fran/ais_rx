@@ -1,10 +1,10 @@
 ## GNURadio Scheme to get AIS beacons from ships/stations
-  
+
 This module has two parts, the GNURadio scheme (grc/py) and a C program that manages the output socket from GNURadio.
 The C module is compiled as:
 
 ```
-gcc ais.c ais_rx.c socket_utils.c
+gcc *.c -o ais_rx
 ```
 
 ## Dependances
