@@ -1,3 +1,21 @@
+/***************************************************************************************************
+*  File:        ais_rx.h                                                                           *
+*  Authors:     Joan Francesc Muñoz Martin (JFM)                                                   *
+*                                                                                                  *
+*  Creation:    30-01-2018                                                                         *
+*  Description: AIS receiver and message typedefed (header)                                        *
+*                                                                                                  *
+*  This file is part of a project developed by Nano-Satellite and Payload Laboratory (NanoSat Lab) *
+*  at Technical University of Catalonia - UPC BarcelonaTech.                                       *
+*                                                                                                  *
+*  AIS configuration file reader. Reads a config file from a path and it sets AISConfiguration     *
+*                                                                                                  *
+* ------------------------------------------------------------------------------------------------ *
+*  Changelog:                                                                                      *
+*  v#   Date            Author  Description                                                        *
+*  0.1  30-01-2018      <JFM>  <File creation>                                                     *
+***************************************************************************************************/
+
 #ifndef __AIS_RX_H__
 #define __AIS_RX_H__
 

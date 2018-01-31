@@ -6,13 +6,18 @@ void program_exit(char * str)
     exit(-1);
 }
 
-
-void unpack_byte(uint8_t * bit_array, uint8_t * byte_array, int bit_cnt, int byte_cnt)
+int unpack_bytes(uint8_t *bit_array, uint8_t *byte_array, int byte_cnt)
 {
-    int j;
-    for (j = 0; j < 8; j++){
-        bit_array[bit_cnt+j] = (byte_array[byte_cnt]>>j)&0x1;
+    int nbits = byte_cnt*8;
+    int npad = (6-(nbits % 6)) % 6;
+    int padded_len = nbits+npad;
+    int i;
+    uint8_t bit;
+    for(i = 0; i < nbits; i++) {
+        bit = (byte_array[i/8] >> (7-i%8)) &1;
+        bit_array[i] = bit;
     }
+    return nbits;
 }
 
 unsigned long protodec_henten(int from, int size, unsigned char *frame)
@@ -181,11 +186,11 @@ void protodec_pos(demod_state_t *d, int bufferlen, unsigned long mmsi)
     navstat = protodec_henten(38, 2, d->rbuffer);
     heading = protodec_henten(38 + 22 + 28 + 28 + 12, 9, d->rbuffer);
 
-    /*printf(" lat %.6f lon %.6f course %.0f speed %.1f rateofturn %d navstat %d heading %d\n",
+    printf(" lat %.6f lon %.6f course %.0f speed %.1f rateofturn %d navstat %d heading %d\n",
         (float) latitude / 600000.0,
         (float) longitude / 600000.0,
         (float) course / 10.0, (float) sog / 10.0,
-        rateofturn, navstat, heading);*/
+        rateofturn, navstat, heading);
 }
 
 void protodec_4(demod_state_t *d, int bufferlen, unsigned long mmsi)
@@ -571,20 +576,18 @@ void protodec_getdata(int bufferlen, demod_state_t *d)
 
 int read_ais_message(ais_message_t *ais)
 {
+    int i;
     int readed;
-    readed = read_kiss_from_socket(ais->fd, ais->bytebuffer);
+    readed = read_kiss_from_socket(ais->fd, (char *) ais->bytebuffer);
     if ( ! (readed > 0) ){
         program_exit("file descriptor returned error");
     }else{
         /* put each byte sepparatelly */
+        ais->byte_cnt = readed;
         memset(ais->bitbuffer, 0, sizeof(ais->bitbuffer));
-        ais->bit_cnt = 0;
-        for (ais->byte_cnt = 0; ais->byte_cnt < readed; ais->byte_cnt++){
-            unpack_byte(ais->bitbuffer, ais->bytebuffer, ais->bit_cnt, ais->byte_cnt);
-            ais->bit_cnt += 8;
-        }
-        /* tell who are you */
+        ais->bit_cnt = unpack_bytes(ais->bitbuffer, ais->bytebuffer, ais->byte_cnt);
         ais->d.rbuffer = ais->bitbuffer;
         protodec_getdata(ais->bit_cnt, &ais->d);
     }
+    return 0;
 }

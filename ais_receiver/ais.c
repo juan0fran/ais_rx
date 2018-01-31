@@ -2,6 +2,7 @@
 
 int main(void)
 {
+    AISConfiguration ais_config;
     bool repeated_message = false;
     ais_message_t ais[MAX_ALLOWABLE_MESSAGES];
     int fd1, message_count, last_count;
@@ -10,7 +11,7 @@ int main(void)
         fd1 = socket_init(51999);
     }while(fd1 == -1);
     printf("Connected!\n");
-    load_configuration();
+    load_configuration(NULL, &ais_config);
     printf("Total messages to be computed: %d\n", ais_config.total_messages);
     for(message_count = 0; message_count < ais_config.total_messages; message_count++) {
         ais[message_count].fd = fd1;
@@ -27,7 +28,7 @@ int main(void)
                 }
             }
             if(!repeated_message) {
-                printf("Received AIS message: !%s\r\n", ais[message_count].d.nmea);
+                printf("!%s\r\n", ais[message_count].d.nmea);
             }
         }
     }
